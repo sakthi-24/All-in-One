@@ -85,6 +85,9 @@ public class AboutusActivity extends AppCompatActivity  {
                 case R.id.contact:
                     startActivity(new Intent(this, contactUs.class));
                     return true;
+                case R.id.campus:
+                    startActivity(new Intent(this, campus.class));
+                    return true;
             }}
         return super.onOptionsItemSelected(item);
     }

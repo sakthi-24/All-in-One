@@ -13,5 +13,7 @@ public class Constants
     public static final String URL_MENTORFORM = ROOT_URL+"mentorForm.php";
     public static final String URL_GUESTFORM = ROOT_URL+"guestForm.php";
     public static final String URL_OTHERFORM = ROOT_URL+"otherForm.php";
+    public static final String URL_GOOGLEFORM = ROOT_URL+"googleForm.php";
+    public static final String URL_MICROFORM = ROOT_URL+"microsoftForm.php";
 
 }

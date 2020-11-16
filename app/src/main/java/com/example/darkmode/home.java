@@ -14,6 +14,34 @@ public class home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        Button btn1 = findViewById(R.id.google);
+        btn1.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                System.out.println("Button1 Clicked");
+                Intent activity2Intent = new Intent(com.example.darkmode.home.this,google.class);
+                startActivity(activity2Intent);
+            }
+        });
+
+
+        Button btn2 = findViewById(R.id.microsoft);
+        btn2.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                System.out.println("Button1 Clicked");
+                Intent activity2Intent = new Intent(com.example.darkmode.home.this,microsoft.class);
+                startActivity(activity2Intent);
+            }
+        });
+
+
+
+
+
+
         Button princi = findViewById(R.id.princi);
         princi.setOnClickListener(new View.OnClickListener()
         {

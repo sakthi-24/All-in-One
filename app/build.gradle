@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.darkmode"
-        minSdkVersion 16
+        minSdkVersion 18
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -42,4 +42,7 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:design:25.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
+
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+    implementation 'co.gofynd.library:gravity-view:1.0'
 }
