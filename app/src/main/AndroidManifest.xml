@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Darkmode"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view"></activity>
+
+        <activity android:name=".view"/>
         <activity android:name=".microsoftf" />
         <activity android:name=".googlef" />
         <activity android:name=".microsoft" />
@@ -43,6 +44,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".Chapter_bangalore" />
         <activity android:name=".Chapter_middle_east" />
@@ -59,6 +63,8 @@
         <activity android:name=".GalleryActivity" />
         <activity android:name=".AboutusActivity" />
         <activity android:name=".Dashboard" />
+        <activity android:name=".Directory" />
+        <activity android:name=".Directory2" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -29,6 +29,7 @@
     <string name="row5">Applications</string>
     <string name="row5google">180 Applicants</string>
     <string name="row5micro">180 Applicants</string>
+    <string name="search_alumini">Search alumini..</string>
 
     <string-array name="Spinner_items">
         <item>Afghanistan</item>

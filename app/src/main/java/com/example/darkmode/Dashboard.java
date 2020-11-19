@@ -66,21 +66,6 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         ImageButton home = findViewById(R.id.imageButton);
         home.setOnClickListener(new View.OnClickListener()
         {
@@ -167,6 +152,11 @@ public class Dashboard extends AppCompatActivity implements View.OnClickListener
 
             case R.id.cardcontribution :
                 i = new Intent(this,contribution.class);
+                startActivity(i);
+                break;
+
+            case R.id.carddirectory :
+                i = new Intent(this,Directory.class);
                 startActivity(i);
                 break;
         }
