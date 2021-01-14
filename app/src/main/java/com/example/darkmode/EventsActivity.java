@@ -1,8 +1,14 @@
 package com.example.darkmode;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -11,58 +17,115 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class EventsActivity extends AppCompatActivity {
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mToggle;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+public class EventsActivity extends AppCompatActivity {
+    ListView listView;
+    public static ArrayList<Event> SubjectList = new ArrayList<Event>();
+    String HttpURL = "http://192.168.43.238/event.php";
+    EventAdapter listAdapter;
+    ProgressBar progressBar;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events);
+        listView = (ListView) findViewById(R.id.listView1);
 
-        NavigationView nav_view=(NavigationView)findViewById(R.id.nav_view);
+        progressBar = (ProgressBar)findViewById(R.id.progressbar);
 
-        nav_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        listView.setTextFilterEnabled(true);
 
-                switch (item.getItemId()) {
+        new ParseJSonDataClass(this).execute();
 
-                    case R.id.notify:
-                        startActivity(new Intent(com.example.darkmode.EventsActivity.this, com.example.darkmode.notify.class));
-                        return true;
+    }
 
-                    case R.id.terms:
-                        startActivity(new Intent(com.example.darkmode.EventsActivity.this, com.example.darkmode.terms.class));
-                        return true;
+    private class ParseJSonDataClass extends AsyncTask<Void, Void, Void> {
+        public Context context;
+        String FinalJSonResult;
 
-                    case R.id.privacy:
-                        startActivity(new Intent(com.example.darkmode.EventsActivity.this, com.example.darkmode.policy.class));
-                        return true;
+        public ParseJSonDataClass(Context context) {
 
-                    case R.id.mode:
-                        startActivity(new Intent(com.example.darkmode.EventsActivity.this, dark_mode.class));
-                        return true;
-                }
-                return true;
-            }
-
-        });
-        mDrawerLayout=(DrawerLayout)findViewById(R.id.drawer);
-            mToggle=new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open,R.string.close);
-            mDrawerLayout.addDrawerListener(mToggle);
-            mToggle.syncState();
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+            this.context = context;
         }
+
         @Override
-        public boolean onOptionsItemSelected(MenuItem item)
-        {
-            if (mToggle.onOptionsItemSelected(item)) {
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
+        protected void onPreExecute() {
+
+            super.onPreExecute();
         }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+
+            HttpServiceClass httpServiceClass = new HttpServiceClass(HttpURL);
+
+            try {
+                httpServiceClass.ExecutePostRequest();
+
+                if (httpServiceClass.getResponseCode() == 200) {
+
+                    FinalJSonResult = httpServiceClass.getResponse();
+
+                    if (FinalJSonResult != null) {
+
+                        JSONArray jsonArray = null;
+                        try {
+
+                            jsonArray = new JSONArray(FinalJSonResult);
+
+                            JSONObject jsonObject;
+
+                            Event user;
+
+                            SubjectList = new ArrayList<Event>();
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                jsonObject = jsonArray.getJSONObject(i);
+
+                                String tempDate = jsonObject.getString("Date").toString();
+
+                                String tempEvent = jsonObject.getString("Event").toString();
+
+                                String tempPlace = jsonObject.getString("Place").toString();
+
+                                String tempTime = jsonObject.getString("Time").toString();
+
+
+
+                                user = new Event(tempDate,tempEvent,tempTime,tempPlace);
+
+                                SubjectList.add(user);
+                            }
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+
+                    Toast.makeText(context, httpServiceClass.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result)
+
+        {
+            progressBar.setVisibility(View.INVISIBLE);
+            listAdapter = new EventAdapter(EventsActivity.this, R.layout.list_layout, SubjectList);
+            listView.setAdapter(listAdapter);
+        }
+    }
 
 
 }
